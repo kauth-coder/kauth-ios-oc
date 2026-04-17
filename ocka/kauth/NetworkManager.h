@@ -13,19 +13,20 @@ typedef void(^NetworkCompletion)(NSDictionary * _Nullable responseDict, NSError 
 
 @interface NetworkManager : NSObject
 
-/// 当前保存的 token（内存中，不持久化）
+/// 当前保存的 token
 @property (class, nonatomic, copy, readonly) NSString * _Nullable token;
 
-/// 设置 token（登录成功后调用）
+/// 当前登录用户信息
+@property (class, nonatomic, copy, readonly) NSDictionary * _Nullable userInfo;
+
+/// 心跳间隔（毫秒）
+@property (class, nonatomic, assign, readonly) NSInteger pongInterval;
+
 + (void)setToken:(NSString *)token;
++ (void)setUserInfo:(NSDictionary *)info;
++ (void)clearSession;
 
-/// 清除 token（登出时调用）
-+ (void)clearToken;
-
-/// POST 请求
-/// @param path 接口路径，如 "/api/consumer/user/kaLogin"
-/// @param params 入参字典
-/// @param completion 完成回调
+/// POST 请求（带加密/签名/验签/解密）
 + (void)postWithPath:(NSString *)path
               params:(NSDictionary * _Nullable)params
           completion:(NetworkCompletion)completion;

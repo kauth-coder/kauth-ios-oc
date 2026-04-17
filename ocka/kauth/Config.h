@@ -19,6 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// 程序ID（必填）
 @property (class, nonatomic, copy, readonly) NSString *programId;
 
+/// 程序密钥 / AES 加密密钥（必填）
+@property (class, nonatomic, copy, readonly) NSString *programSecret;
+
+/// 商户 RSA 公钥 Base64（必填）
+@property (class, nonatomic, copy, readonly) NSString *merchantPublicKey;
+
 /// 验证配置是否完整（必填项是否都已填写）
 + (BOOL)validateConfiguration;
 

@@ -6,9 +6,10 @@
 //
 
 #import "ViewController.h"
+#import "HomeViewController.h"
 #import "kauth/APIService.h"
 #import "kauth/NetworkManager.h"
-#import <UIKit/UIKit.h>
+#import "kauth/StorageManager.h"
 
 @interface ViewController () <UITextFieldDelegate>
 
@@ -25,6 +26,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self loadSavedLicense];
+}
+
+/// 从本地加载已保存的卡密
+- (void)loadSavedLicense {
+    NSString *savedLicense = [StorageManager getSavedLicense];
+    if (savedLicense && savedLicense.length > 0) {
+        self.licenseTextField.text = savedLicense;
+    }
 }
 
 - (void)setupUI {
@@ -174,13 +184,14 @@
         [self setLoading:NO];
 
         if (success) {
-            // 登录成功
-            NSString *nickName = data[@"nickName"] ?: @"用户";
-            NSString *msg = message ?: @"登录成功";
-            [self showAlertWithTitle:@"登录成功" message:[NSString stringWithFormat:@"%@\n欢迎 %@", msg, nickName]];
-            NSLog(@"登录成功，token: %@", [NetworkManager token]);
+            // 登录成功，保存卡密
+            [StorageManager saveLicense:license];
+            // 跳转到主页
+            HomeViewController *homeVC = [[HomeViewController alloc] init];
+            homeVC.loginMsg = message;
+            homeVC.loginData = data;
+            [self.navigationController pushViewController:homeVC animated:YES];
         } else {
-            // 登录失败
             [self showAlertWithTitle:@"登录失败" message:message];
         }
     }];
@@ -193,9 +204,21 @@
         return;
     }
 
-    // TODO: 对接解绑接口
-    [self showAlertWithTitle:@"提示" message:@"解绑功能待对接"];
-    NSLog(@"点击解绑，卡密: %@", license);
+    [self.view endEditing:YES];
+    [self setLoading:YES];
+
+    NSString *deviceId = [self getDeviceId];
+
+    [APIService unbindDeviceWithKaPwd:license deviceId:deviceId completion:^(BOOL success, NSDictionary * _Nullable data, NSString * _Nullable message) {
+        [self setLoading:NO];
+        if (success) {
+            [StorageManager clearLicense];
+            [self showAlertWithTitle:@"解绑成功" message:message ?: @"设备已解绑"];
+            self.licenseTextField.text = @"";
+        } else {
+            [self showAlertWithTitle:@"解绑失败" message:message];
+        }
+    }];
 }
 
 // 获取设备ID
