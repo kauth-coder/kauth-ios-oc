@@ -13,6 +13,11 @@ typedef void(^APICompletion)(BOOL success, NSDictionary * _Nullable data, NSStri
 
 @interface APIService : NSObject
 
+#pragma mark - 设备ID
+
+/// 获取设备唯一ID（首次生成后持久化到 Keychain，卸载重装也不变）
++ (NSString *)getDeviceId;
+
 #pragma mark - 用户认证
 
 /// 卡密登录

@@ -178,7 +178,7 @@
     [self.view endEditing:YES];
     [self setLoading:YES];
 
-    NSString *deviceId = [self getDeviceId];
+    NSString *deviceId = [APIService getDeviceId];
 
     [APIService kaLoginWithLicense:license deviceId:deviceId completion:^(BOOL success, NSDictionary * _Nullable data, NSString * _Nullable message) {
         [self setLoading:NO];
@@ -207,7 +207,7 @@
     [self.view endEditing:YES];
     [self setLoading:YES];
 
-    NSString *deviceId = [self getDeviceId];
+    NSString *deviceId = [APIService getDeviceId];
 
     [APIService unbindDeviceWithKaPwd:license deviceId:deviceId completion:^(BOOL success, NSDictionary * _Nullable data, NSString * _Nullable message) {
         [self setLoading:NO];
@@ -219,11 +219,6 @@
             [self showAlertWithTitle:@"解绑失败" message:message];
         }
     }];
-}
-
-// 获取设备ID
-- (NSString *)getDeviceId {
-    return [[[UIDevice currentDevice] identifierForVendor] UUIDString] ?: @"";
 }
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {

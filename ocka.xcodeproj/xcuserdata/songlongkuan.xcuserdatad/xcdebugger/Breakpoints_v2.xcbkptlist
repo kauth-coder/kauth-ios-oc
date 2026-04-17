@@ -52,21 +52,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "03DD6D49-F77C-4638-83E5-DF54A1B1A12D - cc411c95e5b11ca5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "+[APIService getScriptDownloadWithName:versionNumber:completion:]"
-                  moduleName = "ocka"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/songlongkuan/Desktop/github/kauth-ios-oc/ocka/ocka/kauth/APIService.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397">
-               </Location>
-               <Location
-                  uuid = "03DD6D49-F77C-4638-83E5-DF54A1B1A12D - 7eadd1c1ccf07ba5"
+                  uuid = "03DD6D49-F77C-4638-83E5-DF54A1B1A12D - 7eadd1c1ccf07b8a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -76,8 +62,22 @@
                   urlString = "file:///Users/songlongkuan/Desktop/github/kauth-ios-oc/ocka/ocka/kauth/APIService.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "398"
-                  endingLineNumber = "398">
+                  startingLineNumber = "397"
+                  endingLineNumber = "397">
+               </Location>
+               <Location
+                  uuid = "03DD6D49-F77C-4638-83E5-DF54A1B1A12D - 657d2f81427fbce5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__45+[APIService getRemoteVarWithKey:completion:]_block_invoke"
+                  moduleName = "ocka"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/songlongkuan/Desktop/github/kauth-ios-oc/ocka/ocka/kauth/APIService.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "397"
+                  endingLineNumber = "397">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -96,6 +96,36 @@
             endingLineNumber = "393"
             landmarkName = "+getScriptDownloadWithName:versionNumber:completion:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6734792F-504F-46C4-85A9-D0581D988A32 - cc411c95e5b11c21"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[APIService getScriptDownloadWithName:versionNumber:completion:]"
+                  moduleName = "ocka"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/songlongkuan/Desktop/github/kauth-ios-oc/ocka/ocka/kauth/APIService.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "393"
+                  endingLineNumber = "393">
+               </Location>
+               <Location
+                  uuid = "6734792F-504F-46C4-85A9-D0581D988A32 - 1f5421c06e5058d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "+[APIService getRemoteVarWithKey:completion:]"
+                  moduleName = "ocka"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/songlongkuan/Desktop/github/kauth-ios-oc/ocka/ocka/kauth/APIService.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "394"
+                  endingLineNumber = "394">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

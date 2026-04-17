@@ -7,6 +7,8 @@
 
 #import "APIService.h"
 #import "NetworkManager.h"
+#import <Security/Security.h>
+#import <UIKit/UIKit.h>
 
 /// 通用响应解析
 static inline void KAHandleResponse(NSDictionary *responseDict, NSError *error, APICompletion completion) {
@@ -29,6 +31,59 @@ static inline void KAHandleResponse(NSDictionary *responseDict, NSError *error, 
 static dispatch_source_t g_pongTimer = nil;
 
 @implementation APIService
+
+#pragma mark - 设备ID（Keychain 持久化）
+
+static NSString *const kKeychainDeviceIdKey = @"cn.kauth.ocka.deviceId";
+
++ (NSString *)getDeviceId {
+    // 1. 先从 Keychain 读取
+    NSString *stored = [self _readDeviceIdFromKeychain];
+    if (stored.length > 0) {
+        return stored;
+    }
+    // 2. 首次获取：用 identifierForVendor，存入 Keychain
+    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString] ?: [[NSUUID UUID] UUIDString];
+    [self _saveDeviceIdToKeychain:deviceId];
+    return deviceId;
+}
+
++ (NSString *)_readDeviceIdFromKeychain {
+    NSDictionary *query = @{
+        (__bridge id)kSecClass:            (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrService:      kKeychainDeviceIdKey,
+        (__bridge id)kSecAttrAccount:      kKeychainDeviceIdKey,
+        (__bridge id)kSecReturnData:       @YES,
+        (__bridge id)kSecMatchLimit:       (__bridge id)kSecMatchLimitOne,
+    };
+    CFTypeRef dataRef = NULL;
+    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &dataRef);
+    if (status == errSecSuccess && dataRef) {
+        NSString *result = [[NSString alloc] initWithData:(__bridge_transfer NSData *)dataRef encoding:NSUTF8StringEncoding];
+        return result;
+    }
+    return nil;
+}
+
++ (void)_saveDeviceIdToKeychain:(NSString *)deviceId {
+    NSData *data = [deviceId dataUsingEncoding:NSUTF8StringEncoding];
+    // 先删除旧值（忽略结果）
+    NSDictionary *deleteQuery = @{
+        (__bridge id)kSecClass:       (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrService: kKeychainDeviceIdKey,
+        (__bridge id)kSecAttrAccount: kKeychainDeviceIdKey,
+    };
+    SecItemDelete((__bridge CFDictionaryRef)deleteQuery);
+    // 写入新值
+    NSDictionary *addQuery = @{
+        (__bridge id)kSecClass:           (__bridge id)kSecClassGenericPassword,
+        (__bridge id)kSecAttrService:     kKeychainDeviceIdKey,
+        (__bridge id)kSecAttrAccount:     kKeychainDeviceIdKey,
+        (__bridge id)kSecValueData:       data,
+        (__bridge id)kSecAttrAccessible:  (__bridge id)kSecAttrAccessibleAfterFirstUnlock,
+    };
+    SecItemAdd((__bridge CFDictionaryRef)addQuery, NULL);
+}
 
 #pragma mark - 用户认证
 
